@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Bhakti Waves</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/player.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="om-symbol">ॐ</div>
+            <div class="loader-text">Loading Bhakti Waves...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="https://bhaktiwavessongs.netlify.app/assets/images/logo.png" alt="Bhakti Waves Logo" class="logo-img">
+                <span class="brand-name">Bhakti Waves</span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="main.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="bhajans.html" class="nav-link">
+                    <i class="fas fa-music"></i> Bhajans
+                </a>
+                <a href="lyrics.html" class="nav-link">
+                    <i class="fas fa-file-alt"></i> Lyrics
+                </a>
+                <a href="about.html" class="nav-link active">
+                    <i class="fas fa-info-circle"></i> About
+                </a>
+                <a href="contact.html" class="nav-link">
+                    <i class="fas fa-envelope"></i> Contact
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn-login" onclick="window.location.href='index.html'">
+                    <i class="fas fa-user"></i> Login
+                </button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Hero -->
+    <section class="hero-section" style="min-height: 60vh;">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="om-animated">ॐ</div>
+            <h1 class="hero-title fade-in">About Bhakti Waves</h1>
+            <p class="hero-subtitle fade-in-delay">Your Gateway to Divine Devotional Music</p>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="about-content" style="max-width: 900px; margin: 0 auto; line-height: 1.8;">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">Our Mission</h2>
+                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                    Bhakti Waves is dedicated to spreading the divine essence of devotional music across the world. 
+                    We believe that music is a powerful medium to connect with the divine, and our platform aims to 
+                    make authentic bhajans, kirtans, and devotional songs accessible to everyone.
+                </p>
+
+                <h2 class="section-title" style="text-align: left; margin-bottom: 2rem; margin-top: 4rem;">Our Story</h2>
+                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                    Bhakti Waves was born from a simple desire: to create a beautiful, modern platform for devotional music 
+                    that honors the spiritual traditions while embracing contemporary design and technology.
+                </p>
+                <p style="font-size: 1.1rem; color: var(--text-secondary);">
+                    Created by HackerOP with devotion and dedication, this platform serves as a digital temple where seekers 
+                    can find peace, inspiration, and connection through sacred music.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Player -->
+    <div class="music-player-container" id="musicPlayer">
+        <div class="player-info">
+            <div class="song-image-player">
+                <img src="assets/images/song-cover.jpg" alt="Current Song" id="playerSongImage">
+            </div>
+            <div class="song-details-player">
+                <div class="song-name-player" id="playerSongName">Select a Bhajan</div>
+                <div class="song-artist-player" id="playerSongArtist">Bhakti Waves</div>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            <div class="control-buttons">
+                <button class="control-btn" id="shuffleBtn" title="Shuffle">
+                    <i class="fas fa-random"></i>
+                </button>
+                <button class="control-btn" id="prevBtn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn control-btn-play" id="playPauseBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="nextBtn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <button class="control-btn" id="repeatBtn" title="Repeat">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <span class="time-display" id="currentTime">0:00</span>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-handle" id="progressHandle"></div>
+                </div>
+                <span class="time-display" id="totalTime">0:00</span>
+            </div>
+        </div>
+
+        <div class="player-volume">
+            <button class="volume-btn" id="volumeBtn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-bar" id="volumeBar">
+                <div class="volume-fill" id="volumeFill"></div>
+                <div class="volume-handle" id="volumeHandle"></div>
+            </div>
+            <button class="lyrics-toggle-btn" id="downloadBtn" title="Download">
+                <i class="fas fa-download"></i>
+            </button>
+            <button class="lyrics-toggle-btn" id="lyricsToggleBtn">
+                <i class="fas fa-file-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lyrics Panel -->
+    <div class="lyrics-panel" id="lyricsPanel">
+        <div class="lyrics-header">
+            <h3><i class="fas fa-music"></i> Lyrics</h3>
+            <button class="close-lyrics" id="closeLyrics">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="lyrics-content" id="lyricsContent">
+            <p class="no-lyrics">Select a song to view lyrics</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2023-2025 Bhakti Waves. All rights reserved. Made with ❤️ and Devotion by HackerOP</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Element -->
+    <audio id="audioPlayer" preload="metadata"></audio>
+
+    <!-- Scripts -->
+    <script src="js/route-protection.js"></script>
+    <script src="js/songs-config.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/lyrics-loader.js"></script>
+    <script src="js/favorites.js"></script>
+    <script src="js/playlists.js"></script>
+    <script src="js/main.js"></script>
+   <script src="js/auth.js"></script>
+<script src="js/verification-banner.js"></script>
+<script src="js/user-display.js"></script>
+
+</body>
+</html>

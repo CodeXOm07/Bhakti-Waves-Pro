@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Bhakti Waves</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/responsive.css">
+     <link rel="icon" type="x-icon" href="assets/icons/icon.png">
+</head>
+<body class="auth-page">
+
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <div class="auth-box">
+            <!-- Om Symbol -->
+            <div class="auth-om">ॐ</div>
+            
+            <!-- Logo & Title -->
+            <div class="auth-header">
+                <h1 class="auth-title">Welcome to Bhakti Waves</h1>
+                <p class="auth-subtitle">Sign in to continue your spiritual journey</p>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your email" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Enter your password" 
+                            required
+                        >
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                       <input type="checkbox" id="remember">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </form>
+
+            <!-- Social Login -->
+            <div class="social-divider">
+                <span>or continue with</span>
+            </div>
+
+            <div class="social-buttons">
+                <button class="btn-social btn-google" id="googleLogin">
+                    <i class="fab fa-google"></i> Google
+                </button>
+                <button class="btn-social btn-facebook" id="facebookLogin">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </button>
+            
+            </div>
+
+            <!-- Sign Up Link -->
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="#" id="showSignup" class="link-primary">Sign up</a></p>
+            </div>
+        </div>
+
+        <!-- Signup Form (Hidden by default) -->
+        <div class="auth-box hidden" id="signupBox">
+            <div class="auth-om">ॐ</div>
+            
+            <div class="auth-header">
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Join the Bhakti Waves community</p>
+            </div>
+
+            <form class="auth-form" id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">
+                        <i class="fas fa-user"></i> Full Name
+                    </label>
+                    <input 
+                        type="text" 
+                        id="signupName" 
+                        name="name" 
+                        placeholder="Enter your full name" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input 
+                        type="email" 
+                        id="signupEmail" 
+                        name="email" 
+                        placeholder="Enter your email" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">
+                        <i class="fas fa-lock"></i> Password
+                    </label>
+                    <div class="password-input">
+                        <input 
+                            type="password" 
+                            id="signupPassword" 
+                            name="password" 
+                            placeholder="Create a password" 
+                            required
+                        >
+                        <button type="button" class="toggle-password" id="toggleSignupPassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="form-hint">Min 8 characters, include letters and numbers</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        <i class="fas fa-lock"></i> Confirm Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        placeholder="Confirm your password" 
+                        required
+                    >
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="terms" required>
+                        <span>I agree to the <a href="#" class="link-primary">Terms & Conditions</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+
+            <div class="social-divider">
+                <span>or sign up with</span>
+            </div>
+
+            <div class="social-buttons">
+                <button class="btn-social btn-google" id="googleSignup">
+                    <i class="fab fa-google"></i> Google
+                </button>
+                <button class="btn-social btn-facebook" id="facebookSignup">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="#" id="showLogin" class="link-primary">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background Animation -->
+    <div class="auth-background">
+        <div class="om-float om-1">ॐ</div>
+        <div class="om-float om-2">ॐ</div>
+        <div class="om-float om-3">ॐ</div>
+    </div>
+
+    <script src="js/auth.js"></script>
+<script src="js/route-protection.js"></script>
+<script src="js/user-display.js"></script>
+
+</body>
+</html>

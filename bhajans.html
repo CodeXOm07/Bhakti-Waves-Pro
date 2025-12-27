@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse all devotional bhajans - Bhakti Waves">
+    <title>Bhajans Library - Bhakti Waves</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/player.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        /* Action buttons container */
+        .action-buttons {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.1);
+            background: rgba(139, 92, 246, 0.9);
+        }
+        
+        .action-btn.liked {
+            color: #ef4444;
+        }
+        
+        /* Play count badge */
+        .play-count-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(139, 92, 246, 0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        /* Tabs for playlists */
+        .playlist-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+        }
+        
+        .playlist-tab {
+            padding: 0.75rem 2rem;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        
+        .playlist-tab:hover {
+            border-color: var(--accent-purple);
+            color: var(--text-primary);
+        }
+        
+        .playlist-tab.active {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .playlist-tab i {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="om-symbol">ॐ</div>
+            <div class="loader-text">Loading Bhakti Waves...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="https://bhaktiwavessongs.netlify.app/assets/images/logo.png" alt="Bhakti Waves Logo" class="logo-img">
+                <span class="brand-name">Bhakti Waves</span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="main.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="bhajans.html" class="nav-link active">
+                    <i class="fas fa-music"></i> Bhajans
+                </a>
+                <a href="lyrics.html" class="nav-link">
+                    <i class="fas fa-file-alt"></i> Lyrics
+                </a>
+                <a href="about.html" class="nav-link">
+                    <i class="fas fa-info-circle"></i> About
+                </a>
+                <a href="contact.html" class="nav-link">
+                    <i class="fas fa-envelope"></i> Contact
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn-login" onclick="window.location.href='index.html'">
+                    <i class="fas fa-user"></i> Login
+                </button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" style="min-height: 60vh;">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="om-animated">ॐ</div>
+            <h1 class="hero-title fade-in">Bhajans Library</h1>
+            <p class="hero-subtitle fade-in-delay">Explore Our Complete Collection</p>
+        </div>
+        <div class="hero-wave"></div>
+    </section>
+
+    <!-- Bhajans Section -->
+    <section class="featured-section">
+        <div class="container">
+            <!-- Search Bar -->
+            <div class="search-container" style="max-width: 600px; margin: 0 auto 3rem;">
+                <div style="position: relative;">
+                    <input 
+                        type="text" 
+                        id="bhajanSearchInput" 
+                        placeholder="🔍 Search bhajans by name or artist..."
+                        style="width: 100%; padding: 1rem 1.5rem; font-size: 1rem; border-radius: 50px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-primary); outline: none;"
+                    >
+                </div>
+                <p id="searchNoResults" style="display: none; margin-top: 1.5rem; text-align: center; color: var(--text-muted); font-size: 1.1rem;">
+                    <i class="fas fa-search"></i> No bhajans found. Try a different search term.
+                </p>
+            </div>
+
+            <!-- Playlist Tabs -->
+            <div class="playlist-tabs" id="playlistTabs">
+                <button class="playlist-tab active" data-playlist="all">
+                    <i class="fas fa-music"></i> All Bhajans
+                </button>
+                <button class="playlist-tab" data-playlist="morning">
+                    <i class="fas fa-sun"></i> Morning Prayers
+                </button>
+                <button class="playlist-tab" data-playlist="meditation">
+                    <i class="fas fa-om"></i> Meditation & Peace
+                </button>
+                <button class="playlist-tab" data-playlist="devotional">
+                    <i class="fas fa-pray"></i> Devotional Classics
+                </button>
+                <button class="playlist-tab" data-playlist="old-classics">
+                    <i class="fas fa-record-vinyl"></i> Old is Gold
+                </button>
+                <button class="playlist-tab" data-playlist="most-played">
+                    <i class="fas fa-chart-line"></i> Most Played
+                </button>
+                <button class="playlist-tab" data-playlist="favorites">
+                    <i class="fas fa-heart"></i> My Favorites
+                </button>
+            </div>
+
+            <!-- Section Header -->
+            <div class="section-header">
+                <h2 class="section-title" id="playlistTitle">
+                    <i class="fas fa-music"></i> All Bhajans
+                </h2>
+                <p class="section-subtitle" id="bhajanCount">Loading devotional songs...</p>
+            </div>
+
+            <!-- Bhajans Grid -->
+            <div class="bhajans-grid" id="allBhajans">
+                <!-- Bhajans loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Player (Fixed Bottom) -->
+    <div class="music-player-container" id="musicPlayer">
+        <!-- LEFT: Song Info -->
+        <div class="player-info">
+            <div class="song-image-player">
+                <img src="assets/images/song-cover.jpg" alt="Current Song" id="playerSongImage">
+            </div>
+            <div class="song-details-player">
+                <div class="song-name-player" id="playerSongName">Select a Bhajan</div>
+                <div class="song-artist-player" id="playerSongArtist">Bhakti Waves</div>
+            </div>
+        </div>
+
+        <!-- MIDDLE: Controls + Progress -->
+        <div class="player-controls">
+            <div class="control-buttons">
+                <button class="control-btn" id="shuffleBtn" title="Shuffle (S)">
+                    <i class="fas fa-random"></i>
+                </button>
+                
+                <button class="control-btn" id="prevBtn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn control-btn-play" id="playPauseBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="nextBtn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                
+                <button class="control-btn" id="repeatBtn" title="Repeat (R)">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <span class="time-display" id="currentTime">0:00</span>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-handle" id="progressHandle"></div>
+                </div>
+                <span class="time-display" id="totalTime">0:00</span>
+            </div>
+        </div>
+
+        <!-- RIGHT: Volume + Download + Lyrics -->
+        <div class="player-volume">
+            <button class="volume-btn" id="volumeBtn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-bar" id="volumeBar">
+                <div class="volume-fill" id="volumeFill"></div>
+                <div class="volume-handle" id="volumeHandle"></div>
+            </div>
+            
+            <button class="lyrics-toggle-btn" id="downloadBtn" title="Download Song">
+                <i class="fas fa-download"></i>
+            </button>
+            
+            <button class="lyrics-toggle-btn" id="lyricsToggleBtn">
+                <i class="fas fa-file-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lyrics Panel -->
+    <div class="lyrics-panel" id="lyricsPanel">
+        <div class="lyrics-header">
+            <h3><i class="fas fa-music"></i> Lyrics</h3>
+            <button class="close-lyrics" id="closeLyrics">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="lyrics-content" id="lyricsContent">
+            <p class="no-lyrics">Select a song to view lyrics</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2023-2025 Bhakti Waves. All rights reserved. Made with ❤️ and Devotion by HackerOP</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Element (Hidden) -->
+    <audio id="audioPlayer" preload="metadata"></audio>
+
+    
+   <!-- Scripts - ADD BEFORE </body> -->
+    <script src="js/route-protection.js"></script>
+    <script src="js/songs-config.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/lyrics-loader.js"></script>
+    <script src="js/favorites.js"></script>
+    <script src="js/playlists.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+<script src="js/verification-banner.js"></script>
+<script src="js/user-display.js"></script>
+
+
+    
+    <!-- Bhajans Page Script -->
+    <script>
+        /* ============================================
+           BHAJANS PAGE - COMPLETE WORKING VERSION
+           ============================================ */
+        
+        // Curated Playlists
+        const CURATED_PLAYLISTS = {
+            'morning': {
+                name: 'Morning Prayers',
+                icon: 'sun',
+                songs: [4, 8, 17], // Aarti Kunjbihari, Om Jai Jagdish, Mangal Bhavan
+            },
+            'meditation': {
+                name: 'Meditation & Peace',
+                icon: 'om',
+                songs: [5, 9, 10, 12, 16, 18, 19, 20, 24, 29], // Sanskrit & Lofi songs
+            },
+            'devotional': {
+                name: 'Devotional Classics',
+                icon: 'pray',
+                songs: [1, 11, 13, 14, 21, 22, 23, 27, 30, 31, 32], // Devotional bhajans
+            },
+            'old-classics': {
+                name: 'Old is Gold',
+                icon: 'record-vinyl',
+                songs: [1, 2, 6, 7, 8, 15, 26, 28], // Songs before 2000
+            }
+        };
+        
+        let currentPlaylist = 'all';
+        let allSongsData = [];
+        let currentDisplayedSongs = [];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initializePage();
+        });
+        
+        function initializePage() {
+            // Check URL for playlist
+            const urlParams = new URLSearchParams(window.location.search);
+            const playlistParam = urlParams.get('playlist');
+            
+            loadAllBhajans();
+            setupSearch();
+            setupPlaylistTabs();
+            
+            // Load specific playlist
+            if (playlistParam) {
+                setTimeout(() => {
+                    loadPlaylist(playlistParam);
+                    document.querySelectorAll('.playlist-tab').forEach(tab => {
+                        tab.classList.remove('active');
+                        if (tab.dataset.playlist === playlistParam) {
+                            tab.classList.add('active');
+                        }
+                    });
+                }, 500);
+            }
+            
+            setTimeout(() => {
+                if (window.FavoritesManager) {
+                    addLikeButtonsToCards();
+                }
+            }, 500);
+        }
+        
+        /* ============================================
+           LOAD BHAJANS
+           ============================================ */
+        
+        function loadAllBhajans() {
+            const bhajansGrid = document.getElementById('allBhajans');
+            
+            if (!bhajansGrid || !window.SongsConfig) {
+                console.error('Grid or SongsConfig not found');
+                return;
+            }
+            
+            allSongsData = window.SongsConfig.getAllSongs();
+            
+            if (allSongsData.length === 0) {
+                bhajansGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Loading devotional songs...</p>';
+                return;
+            }
+            
+            console.log('Loaded songs:', allSongsData.length);
+            currentDisplayedSongs = allSongsData;
+            displayBhajans(allSongsData);
+        }
+        
+        function displayBhajans(songs) {
+            const bhajansGrid = document.getElementById('allBhajans');
+            const bhajanCount = document.getElementById('bhajanCount');
+            
+            // Update count
+            bhajanCount.textContent = `${songs.length} devotional song${songs.length !== 1 ? 's' : ''} available`;
+            
+            // Clear grid
+            bhajansGrid.innerHTML = '';
+            
+            if (songs.length === 0) {
+                bhajansGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem;">No songs found</p>';
+                return;
+            }
+            
+            currentDisplayedSongs = songs;
+            
+            // Add all songs
+            songs.forEach((song) => {
+                const card = createBhajanCard(song);
+                bhajansGrid.appendChild(card);
+            });
+            
+            // Add like buttons
+            setTimeout(() => {
+                if (window.FavoritesManager) {
+                    addLikeButtonsToCards();
+                }
+            }, 100);
+        }
+        
+        /* ============================================
+           CREATE BHAJAN CARD
+           ============================================ */
+        
+        function createBhajanCard(song) {
+            const card = document.createElement('div');
+            card.className = 'bhajan-card';
+            card.setAttribute('data-title', song.title.toLowerCase());
+            card.setAttribute('data-artist', song.artist.toLowerCase());
+            card.setAttribute('data-song-id', song.id);
+            
+            // Get play count
+            const playCount = window.MusicPlayer ? window.MusicPlayer.getPlayCount(song.id) : 0;
+            
+            card.innerHTML = `
+                <div class="bhajan-image" style="position: relative;">
+                    <img src="${song.cover}" alt="${song.title}">
+                    
+                    ${playCount > 0 ? `
+                        <div class="play-count-badge">
+                            <i class="fas fa-play"></i> ${playCount}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="play-overlay">
+                        <button class="play-btn-large">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="action-btn playlist-btn" data-song-id="${song.id}" title="Add to Playlist">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="bhajan-info">
+                    <h3 class="bhajan-title">${song.title}</h3>
+                    <p class="bhajan-artist">${song.artist}</p>
+                </div>
+            `;
+            
+            // Play on card click
+            card.addEventListener('click', (e) => {
+                // Don't play if clicking action buttons
+                if (e.target.closest('.action-btn') || e.target.closest('.like-btn')) {
+                    return;
+                }
+                
+                const actualIndex = allSongsData.findIndex(s => s.id === song.id);
+                
+                if (window.MusicPlayer && actualIndex !== -1) {
+                    window.MusicPlayer.loadSong(actualIndex);
+                    window.MusicPlayer.play();
+                }
+            });
+            
+            // Playlist button handler
+            const playlistBtn = card.querySelector('.playlist-btn');
+            playlistBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (window.showAddToPlaylistModal) {
+                    window.showAddToPlaylistModal(song.id);
+                } else {
+                    alert('Added to playlist!');
+                }
+            });
+            
+            return card;
+        }
+        
+        /* ============================================
+           LIKE BUTTONS
+           ============================================ */
+        
+        function addLikeButtonsToCards() {
+            const bhajanCards = document.querySelectorAll('.bhajan-card');
+            
+            bhajanCards.forEach(card => {
+                // Check if like button already exists
+                if (card.querySelector('.like-btn')) return;
+                
+                const songId = parseInt(card.getAttribute('data-song-id'));
+                const song = allSongsData.find(s => s.id === songId);
+                if (!song) return;
+                
+                // Create like button
+                const likeBtn = document.createElement('button');
+                likeBtn.className = 'action-btn like-btn';
+                likeBtn.title = 'Add to Favorites';
+                
+                const isFavorite = window.FavoritesManager.isFavorite(song.id);
+                likeBtn.innerHTML = isFavorite 
+                    ? '<i class="fas fa-heart"></i>' 
+                    : '<i class="far fa-heart"></i>';
+                
+                if (isFavorite) {
+                    likeBtn.classList.add('liked');
+                }
+                
+                // Click handler
+                likeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    
+                    const isNowFavorite = window.FavoritesManager.toggleFavorite(song.id);
+                    
+                    // Update icon
+                    likeBtn.innerHTML = isNowFavorite 
+                        ? '<i class="fas fa-heart"></i>' 
+                        : '<i class="far fa-heart"></i>';
+                    
+                    // Update class
+                    if (isNowFavorite) {
+                        likeBtn.classList.add('liked');
+                    } else {
+                        likeBtn.classList.remove('liked');
+                    }
+                    
+                    // Animation
+                    likeBtn.style.transform = 'scale(1.3)';
+                    setTimeout(() => {
+                        likeBtn.style.transform = '';
+                    }, 200);
+                    
+                    // If on favorites tab, refresh
+                    if (currentPlaylist === 'favorites') {
+                        setTimeout(() => loadPlaylist('favorites'), 300);
+                    }
+                });
+                
+                // Add to card
+                const actionButtons = card.querySelector('.action-buttons');
+                if (actionButtons) {
+                    actionButtons.appendChild(likeBtn);
+                }
+            });
+        }
+        
+        /* ============================================
+           PLAYLIST TABS
+           ============================================ */
+        
+        function setupPlaylistTabs() {
+            const tabs = document.querySelectorAll('.playlist-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const playlist = tab.dataset.playlist;
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Load playlist
+                    loadPlaylist(playlist);
+                });
+            });
+        }
+        
+        function loadPlaylist(playlistId) {
+            currentPlaylist = playlistId;
+            const titleEl = document.getElementById('playlistTitle');
+            let songsToShow = [];
+            
+            switch(playlistId) {
+                case 'all':
+                    songsToShow = allSongsData;
+                    titleEl.innerHTML = '<i class="fas fa-music"></i> All Bhajans';
+                    break;
+                    
+                case 'morning':
+                case 'meditation':
+                case 'devotional':
+                case 'old-classics':
+                    const playlist = CURATED_PLAYLISTS[playlistId];
+                    songsToShow = allSongsData.filter(song => playlist.songs.includes(song.id));
+                    titleEl.innerHTML = `<i class="fas fa-${playlist.icon}"></i> ${playlist.name}`;
+                    break;
+                    
+                case 'favorites':
+                    if (window.FavoritesManager) {
+                        const favIds = window.FavoritesManager.favorites;
+                        songsToShow = allSongsData.filter(song => favIds.includes(song.id));
+                    }
+                    titleEl.innerHTML = '<i class="fas fa-heart"></i> My Favorites';
+                    break;
+                    
+                case 'most-played':
+                    if (window.MusicPlayer) {
+                        songsToShow = window.MusicPlayer.getMostPlayedSongs(50);
+                    }
+                    titleEl.innerHTML = '<i class="fas fa-chart-line"></i> Most Played';
+                    break;
+            }
+            
+            if (songsToShow.length === 0) {
+                const grid = document.getElementById('allBhajans');
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem;">
+                    No songs in this playlist yet. Start adding some!
+                </p>`;
+                document.getElementById('bhajanCount').textContent = '0 songs';
+            } else {
+                displayBhajans(songsToShow);
+            }
+        }
+        
+        /* ============================================
+           SEARCH FUNCTIONALITY
+           ============================================ */
+        
+        function setupSearch() {
+            const searchInput = document.getElementById('bhajanSearchInput');
+            const noResultsMsg = document.getElementById('searchNoResults');
+            
+            if (!searchInput) return;
+            
+            searchInput.addEventListener('keyup', function() {
+                performSearch(this.value);
+            });
+            
+            searchInput.addEventListener('input', function() {
+                performSearch(this.value);
+            });
+            
+            function performSearch(query) {
+                const bhajanCards = document.querySelectorAll('.bhajan-card');
+                const searchTerm = query.toLowerCase().trim();
+                
+                let visibleCount = 0;
+                
+                bhajanCards.forEach(function(card) {
+                    const title = card.getAttribute('data-title');
+                    const artist = card.getAttribute('data-artist');
+                    
+                    if (searchTerm === '' || title.includes(searchTerm) || artist.includes(searchTerm)) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Show/hide no results
+                if (visibleCount === 0 && searchTerm !== '') {
+                    noResultsMsg.style.display = 'block';
+                } else {
+                    noResultsMsg.style.display = 'none';
+                }
+                
+                // Update count
+                const bhajanCount = document.getElementById('bhajanCount');
+                if (searchTerm === '') {
+                    bhajanCount.textContent = `${bhajanCards.length} devotional songs available`;
+                } else {
+                    bhajanCount.textContent = `${visibleCount} bhajan${visibleCount !== 1 ? 's' : ''} found`;
+                }
+            }
+        }
+    </script>
+    
+    
+    
+</body>
+</html>
+             

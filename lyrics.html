@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lyrics - Bhakti Waves</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/player.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="om-symbol">ॐ</div>
+            <div class="loader-text">Loading Bhakti Waves...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="https://bhaktiwavessongs.netlify.app/assets/images/logo.png" alt="Bhakti Waves Logo" class="logo-img">
+                <span class="brand-name">Bhakti Waves</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="main.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                <a href="bhajans.html" class="nav-link"><i class="fas fa-music"></i> Bhajans</a>
+                <a href="lyrics.html" class="nav-link active"><i class="fas fa-file-alt"></i> Lyrics</a>
+                <a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
+                <a href="contact.html" class="nav-link"><i class="fas fa-envelope"></i> Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-login" onclick="window.location.href='index.html'">
+                    <i class="fas fa-user"></i> Login
+                </button>
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Lyrics Hero -->
+    <section class="hero-section" style="min-height: 60vh;">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="om-animated">ॐ</div>
+            <h1 class="hero-title fade-in">Lyrics</h1>
+            <p class="hero-subtitle fade-in-delay">Follow along with the sacred words</p>
+        </div>
+    </section>
+
+    <!-- Lyrics Content -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Browse Lyrics</h2>
+                <p class="section-subtitle">Select a bhajan to view its lyrics</p>
+            </div>
+
+            <div id="lyricsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+                <!-- Lyrics cards will be loaded here -->
+            </div>
+
+            <div id="lyricsDisplay" style="max-width: 800px; margin: 4rem auto; padding: 3rem; background: var(--card-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-color); display: none;">
+                <h2 id="lyricsTitle" style="margin-bottom: 2rem; text-align: center;"></h2>
+                <div id="lyricsText" style="line-height: 2; color: var(--text-secondary); white-space: pre-line;"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Music Player -->
+    <div class="music-player-container" id="musicPlayer">
+        <div class="player-info">
+            <div class="song-image-player">
+                <img src="assets/images/song-cover.jpg" alt="Current Song" id="playerSongImage">
+            </div>
+            <div class="song-details-player">
+                <div class="song-name-player" id="playerSongName">Select a Bhajan</div>
+                <div class="song-artist-player" id="playerSongArtist">Bhakti Waves</div>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            <div class="control-buttons">
+                <button class="control-btn" id="shuffleBtn" title="Shuffle">
+                    <i class="fas fa-random"></i>
+                </button>
+                <button class="control-btn" id="prevBtn">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="control-btn control-btn-play" id="playPauseBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="nextBtn">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                <button class="control-btn" id="repeatBtn" title="Repeat">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            
+            <div class="progress-container">
+                <span class="time-display" id="currentTime">0:00</span>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-handle" id="progressHandle"></div>
+                </div>
+                <span class="time-display" id="totalTime">0:00</span>
+            </div>
+        </div>
+
+        <div class="player-volume">
+            <button class="volume-btn" id="volumeBtn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-bar" id="volumeBar">
+                <div class="volume-fill" id="volumeFill"></div>
+                <div class="volume-handle" id="volumeHandle"></div>
+            </div>
+            <button class="lyrics-toggle-btn" id="downloadBtn" title="Download">
+                <i class="fas fa-download"></i>
+            </button>
+            <button class="lyrics-toggle-btn" id="lyricsToggleBtn">
+                <i class="fas fa-file-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Lyrics Panel -->
+    <div class="lyrics-panel" id="lyricsPanel">
+        <div class="lyrics-header">
+            <h3><i class="fas fa-music"></i> Lyrics</h3>
+            <button class="close-lyrics" id="closeLyrics">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="lyrics-content" id="lyricsContent">
+            <p class="no-lyrics">Select a song to view lyrics</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>© 2023-2025 Bhakti Waves. All rights reserved. Made with ❤️ and Devotion by HackerOP</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Element -->
+    <audio id="audioPlayer" preload="metadata"></audio>
+
+    <!-- Scripts -->
+    <script src="js/route-protection.js"></script>
+    <script src="js/songs-config.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/lyrics-loader.js"></script>
+    <script src="js/favorites.js"></script>
+    <script src="js/playlists.js"></script>
+    <script src="js/main.js"></script>
+   <script src="js/auth.js"></script>
+<script src="js/verification-banner.js"></script>
+<script src="js/user-display.js"></script>
+
+
+    <script>
+        // Load lyrics list
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('lyricsGrid');
+            const songs = window.SongsConfig.getAllSongs();
+            
+            songs.forEach(song => {
+                const card = document.createElement('div');
+                card.className = 'bhajan-card';
+                card.style.cursor = 'pointer';
+                card.innerHTML = `
+                    <div class="bhajan-info" style="padding: 2rem; text-align: center;">
+                        <i class="fas fa-file-alt" style="font-size: 3rem; color: var(--accent-purple); margin-bottom: 1rem;"></i>
+                        <h3 class="bhajan-title">${song.title}</h3>
+                        <p class="bhajan-artist">${song.artist}</p>
+                    </div>
+                `;
+                card.onclick = () => showLyrics(song);
+                grid.appendChild(card);
+            });
+        });
+
+        function showLyrics(song) {
+            const display = document.getElementById('lyricsDisplay');
+            const title = document.getElementById('lyricsTitle');
+            const text = document.getElementById('lyricsText');
+            
+            title.textContent = song.title;
+            
+            if (song.lyricsPath) {
+                fetch(song.lyricsPath)
+                    .then(res => res.text())
+                    .then(lyrics => {
+                        text.textContent = lyrics;
+                        display.style.display = 'block';
+                        display.scrollIntoView({ behavior: 'smooth' });
+                    })
+                    .catch(() => {
+                        text.textContent = 'Lyrics not available for this song.';
+                        display.style.display = 'block';
+                    });
+            } else {
+                text.textContent = 'Lyrics not available for this song.';
+                display.style.display = 'block';
+            }
+        }
+    </script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Bhakti Waves</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/player.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <style>
+        .admin-page {
+            background: var(--bg-primary);
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: var(--radius-lg);
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .admin-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+        }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon.purple {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .stat-icon.green {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        
+        .stat-icon.orange {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+        
+        .stat-icon.red {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        
+        .admin-tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        
+        .admin-tab:hover {
+            border-color: var(--accent-purple);
+            color: var(--text-primary);
+        }
+        
+        .admin-tab.active {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .admin-tab i {
+            margin-right: 0.5rem;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .content-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        
+        .content-card h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .users-table th,
+        .users-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .users-table th {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .users-table tr:hover {
+            background: var(--hover-bg);
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-verified {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        .status-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        
+        .btn-small:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+        
+        .song-form {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+        }
+        
+        .settings-grid {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+        }
+        
+        .setting-label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .setting-label strong {
+            color: var(--text-primary);
+        }
+        
+        .setting-label small {
+            color: var(--text-secondary);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: var(--border-color);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .toggle-switch.active {
+            background: var(--accent-purple);
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s;
+        }
+        
+        .toggle-switch.active::after {
+            left: 27px;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .users-table {
+                font-size: 0.85rem;
+            }
+            
+            .users-table th,
+            .users-table td {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="admin-page">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="https://bhaktiwavessongs.netlify.app/assets/images/logo.png" alt="Bhakti Waves Logo" class="logo-img">
+                <span class="brand-name">Bhakti Waves</span>
+                <span class="admin-badge">🔐 ADMIN</span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="main.html" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="bhajans.html" class="nav-link">
+                    <i class="fas fa-music"></i> Bhajans
+                </a>
+                <a href="admin-dashboard.html" class="nav-link active">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn-login" onclick="window.logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <h1>
+                <i class="fas fa-shield-alt"></i>
+                Admin Dashboard
+            </h1>
+            <p style="margin: 0.5rem 0 0; opacity: 0.9;">
+                Welcome back, Admin! Manage your Bhakti Waves platform.
+            </p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon purple">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-value" id="totalUsers">0</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="stat-value" id="totalSongs">34</div>
+                <div class="stat-label">Total Songs</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="stat-value" id="totalPlays">0</div>
+                <div class="stat-label">Total Plays</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon red">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="stat-value" id="activeToday">0</div>
+                <div class="stat-label">Active Today</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="overview">
+                <i class="fas fa-chart-line"></i> Overview
+            </button>
+            <button class="admin-tab" data-tab="users">
+                <i class="fas fa-users"></i> Users
+            </button>
+            <button class="admin-tab" data-tab="songs">
+                <i class="fas fa-music"></i> Songs
+            </button>
+            <button class="admin-tab" data-tab="analytics">
+                <i class="fas fa-chart-bar"></i> Analytics
+            </button>
+            <button class="admin-tab" data-tab="settings">
+                <i class="fas fa-cog"></i> Settings
+            </button>
+        </div>
+
+        <!-- Tab: Overview -->
+        <div class="tab-content active" id="overview">
+            <div class="content-card">
+                <h3><i class="fas fa-info-circle"></i> Quick Stats</h3>
+                <p style="color: var(--text-secondary);">
+                    Platform statistics and recent activity overview.
+                </p>
+                
+                <div style="margin-top: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Email Verification Rate</span>
+                        <span id="verificationRate">0%</span>
+                    </div>
+                    <div style="background: var(--border-color); height: 10px; border-radius: 5px; overflow: hidden;">
+                        <div id="verificationBar" style="width: 0%; height: 100%; background: var(--accent-gradient); transition: width 0.5s;"></div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Active Users (Last 7 Days)</span>
+                        <span id="activeWeek">0</span>
+                    </div>
+                    <div style="background: var(--border-color); height: 10px; border-radius: 5px; overflow: hidden;">
+                        <div id="activeBar" style="width: 0%; height: 100%; background: #10b981; transition: width 0.5s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Users -->
+        <div class="tab-content" id="users">
+            <div class="content-card">
+                <h3><i class="fas fa-users"></i> User Management</h3>
+                
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Provider</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: var(--text-secondary);">
+                                Loading users...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab: Songs -->
+        <div class="tab-content" id="songs">
+            <div class="content-card">
+                <h3><i class="fas fa-plus-circle"></i> Add New Song</h3>
+                
+                <form class="song-form" id="addSongForm">
+                    <div class="form-group">
+                        <label>Song Title</label>
+                        <input type="text" placeholder="Enter song title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Artist</label>
+                        <input type="text" placeholder="Enter artist name" value="Bhakti Waves" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Genre</label>
+                        <select required>
+                            <option value="hindi">Hindi</option>
+                            <option value="sanskrit">Sanskrit</option>
+                            <option value="instrumental">Instrumental</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select required>
+                            <option value="devotional">Devotional</option>
+                            <option value="morning">Morning</option>
+                            <option value="meditation">Meditation</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Year</label>
+                        <input type="number" placeholder="2024" min="1980" max="2030" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Audio File (.mp3)</label>
+                        <input type="file" accept=".mp3" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cover Image</label>
+                        <input type="file" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lyrics File (.txt)</label>
+                        <input type="file" accept=".txt">
+                    </div>
+
+                    <button type="submit" class="btn-small" style="padding: 1rem; font-size: 1rem;">
+                        <i class="fas fa-upload"></i> Upload Song
+                    </button>
+                </form>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-list"></i> All Songs</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                    Total: <span id="songCount">34</span> songs
+                </p>
+                <div id="songsList">
+                    <!-- Songs list will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Analytics -->
+        <div class="tab-content" id="analytics">
+            <div class="content-card">
+                <h3><i class="fas fa-chart-bar"></i> Analytics Dashboard</h3>
+                <p style="color: var(--text-secondary);">
+                    Detailed analytics and insights coming soon...
+                </p>
+            </div>
+        </div>
+
+        <!-- Tab: Settings -->
+        <div class="tab-content" id="settings">
+            <div class="content-card">
+                <h3><i class="fas fa-cog"></i> System Settings</h3>
+                
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <div class="setting-label">
+                            <strong>Email Verification Banner</strong>
+                            <small>Show banner for unverified users</small>
+                        </div>
+                        <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-label">
+                            <strong>Auto Logout</strong>
+                            <small>Automatically logout inactive users</small>
+                        </div>
+                        <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-label">
+                            <strong>New User Signups</strong>
+                            <small>Allow new user registrations</small>
+                        </div>
+                        <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+                    </div>
+
+                    <div class="setting-item">
+                        <div class="setting-label">
+                            <strong>Download Songs</strong>
+                            <small>Allow users to download songs</small>
+                        </div>
+                        <div class="toggle-switch active" onclick="toggleSetting(this)"></div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-primary);">
+                        Auto Logout Timings
+                    </h4>
+                    
+                    <div class="form-group">
+                        <label>Verified Users (days)</label>
+                        <input type="number" value="4" min="1" max="30" id="verifiedDays">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Unverified Users (days)</label>
+                        <input type="number" value="3" min="1" max="30" id="unverifiedDays">
+                    </div>
+
+                    <button class="btn-small" onclick="saveSettings()" style="margin-top: 1rem;">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<script src="js/route-protection.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/user-display.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+</body>
+</html>
